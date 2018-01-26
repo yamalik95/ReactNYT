@@ -7,28 +7,28 @@ class TodoForm extends Component {
     }
 
     state = {
-        todoItem: ''
+        query: ''
     };
 
     clickHandler = (event) => {
         event.preventDefault();
         this.props.updateList(this.state.todoItem);
-        this.setState({ todoItem: '' });
+        this.setState({ query: '' });
     }
 
     changeHandler = (event) => {
         const { value } = event.target;
-        this.setState({ todoItem: value });
+        this.setState({ query: value });
     }
 
     render() {
         return <form>
             <input
                 type="text"
-                name="todoItem"
-                value={this.state.todoItem}
+                name="query"
+                value={this.state.query}
                 onChange={this.changeHandler} />
-            <button onClick={this.clickHandler}>Add this to the list!</button>
+            <button onClick={this.clickHandler}>Search for your favorite news!</button>
         </form>
     }
 
