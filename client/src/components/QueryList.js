@@ -3,13 +3,16 @@ import QueryItem from './QueryItem';
 
 const render =
     (props) =>
-        <ul>
+        <ol>
             {props.articles.map(
                 (article) =>
                     <QueryItem
                         articleTitle={article.title}
+                        articleLink={article.webURL}
+                        articleDate={article.date}
+                        key={article.key}
                     />
             )}
-        </ul>;
+        </ol>;
 
 export default render;

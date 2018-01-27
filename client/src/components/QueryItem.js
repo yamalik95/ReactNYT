@@ -3,10 +3,10 @@ import React from 'react';
 const render =
     (props) =>
         <li>
-            <input
-                type="checkbox"
-             />
-            {props.articleTitle}
+            <a href={props.articleLink}>
+                {props.articleTitle}
+            </a>
+            <button className='savers'>Save</button>
         </li>;
                 // onClick={props.completeItem.bind(null, props.todo, !props.checked)}
                 // checked={props.checked}
