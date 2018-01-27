@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import QueryList from './QueryList';
+import SavedQueries from './SavedQueries';
 
 class QueryForm extends Component {
     constructor(props) {
@@ -12,8 +13,39 @@ class QueryForm extends Component {
         query: '',
         beginDate: '',
         endDate: '',
-        articles: []
+        articles: [],
+        saved: []
     };
+
+    componentDidMount() {
+        this.props.getSaved().then((res) => {
+            let savedArticles = []
+            for (let i = 0; i < res.data.length; i++) {
+                savedArticles[i] = res.data[i]
+            }
+            this.setState({saved: savedArticles}, () => {
+                console.log(this.state.saved[0]._id)
+            })
+        })
+    }
+
+    postToSave = (event, valuesObj) => {
+        event.preventDefault()
+        axios.post('/api/articles', valuesObj)
+        let savedArticles = this.state.saved.concat(valuesObj)
+        this.setState({ saved: savedArticles})
+    };
+
+    deleteSaved = (event, key, id) => {
+        console.log(key,'!!!!!!!!!')
+        event.preventDefault();
+        axios.post('/api/delete/' + key)
+        let savedArticles = this.state.saved
+        savedArticles.splice(id, 1)
+        this.setState({ saved: savedArticles }, () => {
+            console.log(this.state.saved)
+        })
+    }
 
     constructQueryURL = () => {
         const baseURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key="
@@ -89,7 +121,17 @@ class QueryForm extends Component {
                 onChange={this.changeHandler}
             />
             <button onClick={this.clickHandler}>Search for your favorite news!</button>
-            <QueryList articles={this.state.articles} />
+            <br />
+            Queried Articles:
+            <QueryList 
+                articles={this.state.articles}
+                postToSave={this.postToSave.bind(this.state)} 
+            />
+            Saved Articles:
+            <SavedQueries
+                saved={this.state.saved}
+                deleteSaved={this.deleteSaved.bind(this.state)}
+            />
         </form>
     }
 

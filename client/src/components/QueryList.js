@@ -11,6 +11,13 @@ const render =
                         articleLink={article.webURL}
                         articleDate={article.date}
                         key={article.key}
+                        postObj={{  
+                                    title: article.title,
+                                    date: article.date,
+                                    url: article.webURL
+                                }}
+                        postToSave={props.postToSave}
+                        saved={props.saved}
                     />
             )}
         </ol>;
